@@ -1,51 +1,64 @@
 angular.module( "Test", ['ngAutocomplete'])
-  .controller("TestCtrl",function ($scope) {
+  .controller("TestCtrl",function ($scope) {  
+    var vm = this;
 
-    $scope.result = ''
-//    $scope.details = ''
-    $scope.options = {};
+    vm.result = ''
+//    vm.details = ''
+    vm.options = {};
+    vm.initialAddress = null;
 
-    $scope.form = {
+    vm.form = {
       type: 'geocode',
       bounds: {SWLat: 49, SWLng: -97, NELat: 50, NELng: -96},
-      country: 'ca',
+      country: 'nz',
       typesEnabled: false,
       boundsEnabled: false,
       componentEnabled: false,
-      watchEnter: true
+      watchEnter: true,
+      initialLatLng: false,
+      initialAddress: {lat: 40.7128 , lng: 74.0059}
     }
 
     //watch form for changes
-    $scope.watchForm = function () {
-      return $scope.form
+    vm.watchForm = function () {
+      return vm.form
     };
-    $scope.$watch($scope.watchForm, function () {
-      $scope.checkForm()
+    $scope.$watch(vm.watchForm, function () {
+      vm.checkForm()
     }, true);
 
 
     //set options from form selections
-    $scope.checkForm = function() {
+    vm.checkForm = function() {
 
-      $scope.options = {};
+      vm.options = {};
 
-      $scope.options.watchEnter = $scope.form.watchEnter
+      vm.options.watchEnter = vm.form.watchEnter
 
-      if ($scope.form.typesEnabled) {
-        $scope.options.types = $scope.form.type
+      if (vm.form.typesEnabled) {
+        vm.options.types = vm.form.type
       }
-      if ($scope.form.boundsEnabled) {
+      if (vm.form.boundsEnabled) {
 
-        var SW = new google.maps.LatLng($scope.form.bounds.SWLat, $scope.form.bounds.SWLng)
-        var NE = new google.maps.LatLng($scope.form.bounds.NELat, $scope.form.bounds.NELng)
+        var SW = new google.maps.LatLng(vm.form.bounds.SWLat, vm.form.bounds.SWLng)
+        var NE = new google.maps.LatLng(vm.form.bounds.NELat, vm.form.bounds.NELng)
         var bounds = new google.maps.LatLngBounds(SW, NE);
-        $scope.options.bounds = bounds
+        vm.options.bounds = bounds
 
       }
-      if ($scope.form.componentEnabled) {
-        $scope.options.country = $scope.form.country
+      if (vm.form.componentEnabled) {
+        vm.options.country = vm.form.country
       }
     };
+
+    vm.initialAddressChange = function (){
+      if(vm.form.initialLatLng){
+        vm.initialAddress = vm.form.initialAddress;
+      }
+      else{
+        vm.initialAddress = null;
+      }
+    }
 
   });
 
