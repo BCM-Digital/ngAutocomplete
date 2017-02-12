@@ -57,16 +57,12 @@ options = {
 	types: '(cities)',
 	country: 'ca'
 }
-
-initialAddress = {
-	lat: 40.7128 , 
-    lng: 74.0059
-}
 ```
 + placeId - In case you want to initialize the autocomplete with an existing location you can provide the place_id from google places
 
 + initialAddress - Latitude and longitude to initialize the component
 
+example: 
 ``` javascript
 initialAddress = {
 	lat: 40.7128 , 
