@@ -47,13 +47,12 @@ angular.module("ngAutocomplete", [])
       link: function (scope, element, attrs, controller) {
 
         //options for autocomplete
-        var opts;
         var watchEnter = false;
 
         //convert options provided to opts
         var initOpts = function () {
 
-          opts = {};
+          var opts = {};
           if (scope.options) {
 
             if (scope.options.watchEnter !== true) {
