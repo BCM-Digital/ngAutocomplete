@@ -1,4 +1,4 @@
-angular.module( "Test", ['ngAutocomplete'])
+angular.module( "Test", ['ngPlacesAutocomplete'])
   .controller("TestCtrl",function ($scope) {  
     var vm = this;
 

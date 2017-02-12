@@ -1,7 +1,8 @@
 {
-  "name": "ngAutocomplete",
+  "name": "ngPlacesAutocomplete",
   "version": "2.0.0",
-  "main": "src/ngAutocomplete.js",
+  "description": "A simple directive for adding google places autocomplete to a textbox element",
+  "main": "src/ngPlacesAutocomplete.js",
   "dependencies": {
     "angular": ">=1.2.0"
   },

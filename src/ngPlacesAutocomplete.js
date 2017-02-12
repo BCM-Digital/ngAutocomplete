@@ -32,8 +32,8 @@
  *    }
  **/
 
-angular.module("ngAutocomplete", [])
-  .directive('ngAutocomplete', function () {
+angular.module("ngPlacesAutocomplete", [])
+  .directive('ngPlacesAutocomplete', function () {
     return {
       require: 'ngModel',
       scope: {

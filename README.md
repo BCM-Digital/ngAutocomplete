@@ -26,14 +26,14 @@ Include the required libraries
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
 ```
 
-+Download `ngAutocomplete` using bower and add it to `bower.json` file
++Download `ngPlacesAutocomplete` using bower and add it to `bower.json` file
  +```javascript
  +bower install ngPlacesAutocomplete --save
  +```
 
-Declare a dependency on the `ngAutocomplete` module
+Declare a dependency on the `ngPlacesAutocomplete` module
 ``` javascript
-var app = angular.module('myModule', ['ngAutocomplete']);
+var app = angular.module('myModule', ['ngPlacesAutocomplete']);
 ```
 
 Add the directive to a textbox
