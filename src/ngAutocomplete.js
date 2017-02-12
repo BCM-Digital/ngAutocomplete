@@ -127,10 +127,19 @@ angular.module("ngAutocomplete", [])
           }
         }
 
+        element.bind("keydown keypress", function (event) {
+          if (event.which === 13) {
+            scope.$apply(function () {
+              controller.$setViewValue(element.val());
+            });
+          }
+        });
+
         if (scope.gPlace === undefined) {
           scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
         }
-        google.maps.event.addListener(scope.gPlace, 'place_changed', function () {        
+
+        google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
           var result = scope.gPlace.getPlace();
           if (result && result.address_components) {
             scope.$apply(function () {
