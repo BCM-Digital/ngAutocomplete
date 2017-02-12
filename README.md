@@ -6,24 +6,34 @@ Updated to now use ng-model, should work much better in forms. Can now set an in
 
 Tested with angularjs-1.2.4
 
-Uses optional directive parameters, so it won't work with <1.2. If people are interested I'll release a <1.2 version.
+Uses optional directive parameters, so it won't work with <1.2. 
+
+This is an adaptation of this original component (https://github.com/wpalahnuk/ngAutocomplete)
 
 ## Examples
 
-+ [Example Plunkers - Simple Usage](http://plnkr.co/edit/GE34ojss9xMGm0024FvM?p=preview)
++ [Example Plunkers - Advanced Usage](http://embed.plnkr.co/wQZPsx/)
 
-+ [Example Plunkers - Advanced Usage](http://plnkr.co/edit/GF3nM3XfYX9El2w11pGo?p=preview)
++ [Run the examples locally]
+	+ Install npm in your machine
+	+ By executing the `localTest.bat` file you will get a `http-server` running in your local environment
+	+ Use http://localhost:8080 to run the test.
 
 ## Usage
 
 Include the required libraries 
 ```html
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
 ```
 
-Declare a dependency on the `ngAutocomplete` module
++Download `ngPlacesAutocomplete` using bower and add it to `bower.json` file
+ +```javascript
+ +bower install ngPlacesAutocomplete --save
+ +```
+
+Declare a dependency on the `ngPlacesAutocomplete` module
 ``` javascript
-var app = angular.module('myModule', ['ngAutocomplete']);
+var app = angular.module('myModule', ['ngPlacesAutocomplete']);
 ```
 
 Add the directive to a textbox
@@ -46,10 +56,22 @@ Add the directive to a textbox
     + watchEnter:         Boolean, true; on Enter select top autocomplete result. false(default); enter ends autocomplete  
 
 example: 
+
 ``` javascript
 options = {
-types: '(cities)',
-country: 'ca'
+	types: '(cities)',
+	country: 'ca'
+}
+```
++ placeId - In case you want to initialize the autocomplete with an existing location you can provide the place_id from google places
+
++ initialAddress - Latitude and longitude to initialize the component
+
+example: 
+``` javascript
+initialAddress = {
+	lat: 40.7128 , 
+    lng: 74.0059
 }
 ```
 
@@ -57,9 +79,11 @@ google places autocomplete info: https://developers.google.com/maps/documentatio
 
 ## Author
 
-**Will Palahnuk** (http://github.com/wpalahnuk)
+**Ezequiel Reyno** (http://github.com/skielo)
 
 ## Credits
+
+**Will Palahnuk** (http://github.com/wpalahnuk) Creator of the component, unfortunately the original project doesn't exist anymore.
 
 google places autocomplete https://developers.google.com/maps/documentation/javascript/places
 
@@ -67,7 +91,7 @@ google places autocomplete https://developers.google.com/maps/documentation/java
 
     The MIT License
 
-	Copyright (c) 2014 Will Palahnuk
+	Copyright (c) 2017 Ezequiel Reyno
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
