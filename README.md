@@ -28,7 +28,7 @@ Include the required libraries
 
 +Download `ngPlacesAutocomplete` using bower and add it to `bower.json` file
  +```javascript
- +bower install ngPlacesAutocomplete --save
+ +bower install ng-places-autocomplete --save
  +```
 
 Declare a dependency on the `ngPlacesAutocomplete` module
