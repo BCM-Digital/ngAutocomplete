@@ -7,7 +7,8 @@
   },
   "homepage": "https://github.com/skielo/ngAutocomplete",
   "authors": [
-    "skielo <ezequiel.reyno@gmail.com>"
+    "skielo <ezequiel.reyno@gmail.com>",
+    "Will Palahnuk (http://github.com/wpalahnuk)"
   ],
   "keywords": [
     "autocomplete", "google places", "places"
