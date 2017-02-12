@@ -143,6 +143,7 @@ angular.module("ngAutocomplete", [])
             } else {
               if (watchEnter) {
                 getPlace(result);
+                element[0].blur();
               }
             }
           }
