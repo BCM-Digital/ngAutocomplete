@@ -22,145 +22,188 @@
  * example:
  *
  *    options = {
- *        types: '(cities)',
- *        country: 'ca'
+ *      types: '(cities)',
+ *      country: 'ca'
  *    }
-**/
+ * 
+ *    initialAddress = {
+ *      lat: 40.7128 , 
+ *      lng: 74.0059
+ *    }
+ **/
 
-angular.module( "ngAutocomplete", [])
-  .directive('ngAutocomplete', function() {
-    return {
-      require: 'ngModel',
-      scope: {
-        ngModel: '=',
-        options: '=?',
-        details: '=?'
-      },
+angular.module("ngAutocomplete", [])
+    .directive('ngAutocomplete', function() {
+        return {
+            require: 'ngModel',
+            scope: {
+                ngModel: '=ngModel',
+                options: '=?',
+                details: '=?',
+                placeId: '=?',
+                initialAddress: '=?'
+            },
 
-      link: function(scope, element, attrs, controller) {
+            link: function(scope, element, attrs, controller) {
 
-        //options for autocomplete
-        var opts
-        var watchEnter = false
-        //convert options provided to opts
-        var initOpts = function() {
+                //options for autocomplete
+                var opts;
+                var watchEnter = false;
+                
+                //convert options provided to opts
+                var initOpts = function() {
 
-          opts = {}
-          if (scope.options) {
+                    opts = {};
+                    if (scope.options) {
 
-            if (scope.options.watchEnter !== true) {
-              watchEnter = false
-            } else {
-              watchEnter = true
-            }
+                        if (scope.options.watchEnter !== true) {
+                            watchEnter = false;
+                        } else {
+                            watchEnter = true;
+                        }
 
-            if (scope.options.types) {
-              opts.types = []
-              opts.types.push(scope.options.types)
-              scope.gPlace.setTypes(opts.types)
-            } else {
-              scope.gPlace.setTypes([])
-            }
+                        if (scope.options.types) {
+                            opts.types = [];
+                            opts.types.push(scope.options.types);
+                            scope.gPlace.setTypes(opts.types);
+                        } else {
+                            scope.gPlace.setTypes([]);
+                        }
 
-            if (scope.options.bounds) {
-              opts.bounds = scope.options.bounds
-              scope.gPlace.setBounds(opts.bounds)
-            } else {
-              scope.gPlace.setBounds(null)
-            }
-
-            if (scope.options.country) {
-              opts.componentRestrictions = {
-                country: scope.options.country
-              }
-              scope.gPlace.setComponentRestrictions(opts.componentRestrictions)
-            } else {
-              scope.gPlace.setComponentRestrictions(null)
-            }
-          }
-        }
-
-        if (scope.gPlace == undefined) {
-          scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
-        }
-        google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
-          var result = scope.gPlace.getPlace();
-          if (result !== undefined) {
-            if (result.address_components !== undefined) {
-
-              scope.$apply(function() {
-
-                scope.details = result;
-
-                controller.$setViewValue(element.val());
-              });
-            }
-            else {
-              if (watchEnter) {
-                getPlace(result)
-              }
-            }
-          }
-        })
-
-        //function to get retrieve the autocompletes first result using the AutocompleteService 
-        var getPlace = function(result) {
-          var autocompleteService = new google.maps.places.AutocompleteService();
-          if (result.name.length > 0){
-            autocompleteService.getPlacePredictions(
-              {
-                input: result.name,
-                offset: result.name.length
-              },
-              function listentoresult(list, status) {
-                if(list == null || list.length == 0) {
-
-                  scope.$apply(function() {
-                    scope.details = null;
-                  });
-
-                } else {
-                  var placesService = new google.maps.places.PlacesService(element[0]);
-                  placesService.getDetails(
-                    {'reference': list[0].reference},
-                    function detailsresult(detailsResult, placesServiceStatus) {
-
-                      if (placesServiceStatus == google.maps.GeocoderStatus.OK) {
-                        scope.$apply(function() {
-
-                          controller.$setViewValue(detailsResult.formatted_address);
-                          element.val(detailsResult.formatted_address);
-
-                          scope.details = detailsResult;
-
-                          //on focusout the value reverts, need to set it again.
-                          var watchFocusOut = element.on('focusout', function(event) {
-                            element.val(detailsResult.formatted_address);
-                            element.unbind('focusout')
-                          })
-
-                        });
-                      }
+                        if (scope.options.bounds) {
+                            opts.bounds = scope.options.bounds;
+                            scope.gPlace.setBounds(opts.bounds);
+                        } else {
+                            scope.gPlace.setBounds(null);
+                        }
+                        /*dissable until gmaps team solve the issue.*/
+                        if (scope.options.country) {
+                            opts.componentRestrictions = {
+                                country: scope.options.country
+                            };
+                            scope.gPlace.setComponentRestrictions(opts.componentRestrictions);
+                        } else {
+                            scope.gPlace.setComponentRestrictions(null);
+                        }
                     }
-                  );
+                };
+
+                var initPlace = function () {  
+                    if(scope.placeId){
+                        getPlaceDetails();
+                    }
+                };
+
+                var initInitialAddress = function (){
+                    if(scope.placeId){
+                        console.warn('Using PlaceId to configure the Autocomplete component.');
+                    }
+                    else if(scope.initialAddress){
+
+                    }
                 }
-              });
-          }
-        }
 
-        controller.$render = function () {
-          var location = controller.$viewValue;
-          element.val(location);
+                if (scope.gPlace === undefined) {
+                    scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
+                }
+                google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+                    var result = scope.gPlace.getPlace();
+                    if (result !== undefined) {
+                        if (result.address_components !== undefined) {
+
+                            scope.$apply(function() {
+
+                                scope.details = result;
+
+                                controller.$setViewValue(element.val());
+                            });
+                        } else {
+                            if (watchEnter) {
+                                getPlace(result);
+                            }
+                        }
+                    }
+                });
+
+                //function to get retrieve the autocompletes first result using the AutocompleteService 
+                var getPlace = function(result) {
+                    var autocompleteService = new google.maps.places.AutocompleteService();
+                    if (result.name.length > 0) {
+                        autocompleteService.getPlacePredictions({
+                                input: result.name,
+                                offset: result.name.length
+                            },
+                            function listentoresult(list, status) {
+                                if (list === null || list.length === 0) {
+
+                                    scope.$apply(function() {
+                                        scope.details = null;
+                                    });
+
+                                } else {
+                                    getPlaceDetails(list);
+                                }
+                            });
+                    }
+                };
+
+                var getPlaceDetails = function (list) {
+                    var request = {};
+                    if(scope.placeId){
+                        request['placeId'] = scope.placeId;
+                    }
+                    if(list){
+                        request['reference'] = list[0].reference;
+                    }
+                    var placesService = new google.maps.places.PlacesService(element[0]);
+                    placesService.getDetails(request,
+                        function detailsresult(detailsResult, placesServiceStatus) {
+
+                            if (placesServiceStatus == google.maps.GeocoderStatus.OK) {
+                                scope.$apply(function() {
+
+                                    controller.$setViewValue(detailsResult.formatted_address);
+                                    element.val(detailsResult.formatted_address);
+
+                                    scope.details = detailsResult;
+
+                                    //on focusout the value reverts, need to set it again.
+                                    var watchFocusOut = element.on('focusout', function(event) {
+                                        element.val(detailsResult.formatted_address);
+                                        element.unbind('focusout');
+                                    });
+
+                                });
+                            }
+                        }
+                    );
+                }
+
+                controller.$render = function() {
+                    var location = controller.$viewValue;
+                    element.val(location);
+                };
+
+                //watch options provided to directive
+                scope.watchOptions = function() {
+                    return scope.options;
+                };
+                scope.watchPlace = function() {
+                    return scope.placeId;
+                };
+                scope.watchAddress = function() {
+                    return scope.initialAddress;
+                };
+                scope.$watch(scope.watchOptions, function() {
+                    initOpts();
+                }, true);
+                
+                scope.$watch(scope.watchPlace, function() {
+                    initPlace();
+                }, true);
+                scope.$watch(scope.watchAddress, function() {
+                    initInitialAddress();
+                }, true);
+            }
         };
-
-        //watch options provided to directive
-        scope.watchOptions = function () {
-          return scope.options
-        };
-        scope.$watch(scope.watchOptions, function () {
-          initOpts()
-        }, true);
-
-      }
-    };
-  });
+    });

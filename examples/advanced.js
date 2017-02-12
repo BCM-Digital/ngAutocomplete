@@ -8,7 +8,7 @@ angular.module( "Test", ['ngAutocomplete'])
     $scope.form = {
       type: 'geocode',
       bounds: {SWLat: 49, SWLng: -97, NELat: 50, NELng: -96},
-      country: 'ca',
+      country: 'nz',
       typesEnabled: false,
       boundsEnabled: false,
       componentEnabled: false,
