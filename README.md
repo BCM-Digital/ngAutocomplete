@@ -26,6 +26,11 @@ Include the required libraries
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
 ```
 
++Download `ngAutocomplete` using bower and add it to `bower.json` file
+ +```javascript
+ +bower install ngPlacesAutocomplete --save
+ +```
+
 Declare a dependency on the `ngAutocomplete` module
 ``` javascript
 var app = angular.module('myModule', ['ngAutocomplete']);
