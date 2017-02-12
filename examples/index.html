@@ -10,14 +10,14 @@
 
 <body>
 
-<div ng-controller="TestCtrl">
+<div ng-controller="TestCtrl as vm">
 
 
   <form id="form" role="form" name="but">
 
     <div class="checkbox">
       <label>
-        <input type="checkbox" value="" ng-model="form.typesEnabled">
+        <input type="checkbox" value="" ng-model="vm.form.typesEnabled">
         Types
       </label>
     </div>
@@ -26,25 +26,25 @@
     <div class="indent">
       <div class="radio">
         <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios1" value="geocode" checked ng-model="form.type" ng-disabled="!form.typesEnabled">
+          <input type="radio" name="optionsRadios" id="optionsRadios1" value="geocode" checked ng-model="vm.form.type" ng-disabled="!vm.form.typesEnabled">
           Geocode
         </label>
       </div>
       <div class="radio">
         <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios2" value="establishment" ng-model="form.type" ng-disabled="!form.typesEnabled">
+          <input type="radio" name="optionsRadios" id="optionsRadios2" value="establishment" ng-model="vm.form.type" ng-disabled="!vm.form.typesEnabled">
           Establishment
         </label>
       </div>
       <div class="radio">
         <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios3" value="(regions)" ng-model="form.type" ng-disabled="!form.typesEnabled">
+          <input type="radio" name="optionsRadios" id="optionsRadios3" value="(regions)" ng-model="vm.form.type" ng-disabled="!vm.form.typesEnabled">
           Regions
         </label>
       </div>
       <div class="radio">
         <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios4" value="(cities)" ng-model="form.type" ng-disabled="!form.typesEnabled">
+          <input type="radio" name="optionsRadios" id="optionsRadios4" value="(cities)" ng-model="vm.form.type" ng-disabled="!vm.form.typesEnabled">
           Cities
         </label>
       </div>
@@ -52,7 +52,7 @@
 
     <div class="checkbox">
       <label>
-        <input type="checkbox" value="" ng-model="form.boundsEnabled">
+        <input type="checkbox" value="" ng-model="vm.form.boundsEnabled">
         Bounds
       </label>
     </div>
@@ -61,54 +61,71 @@
       <div class="title">Southwest Corner</div>
       <label>
         lat:
-        <input type="number" ng-model="form.bounds.SWLat" ng-disabled="!form.boundsEnabled">
+        <input type="number" ng-model="vm.form.bounds.SWLat" ng-disabled="!vm.form.boundsEnabled">
       </label>
       <label>
         lng:
-        <input type="number" ng-model="form.bounds.SWLng" ng-disabled="!form.boundsEnabled">
+        <input type="number" ng-model="vm.form.bounds.SWLng" ng-disabled="!vm.form.boundsEnabled">
       </label>
       <div class="title">Northeast Corner</div>
       <label>
         lat:
-        <input type="number" ng-model="form.bounds.NELat" ng-disabled="!form.boundsEnabled">
+        <input type="number" ng-model="vm.form.bounds.NELat" ng-disabled="!vm.form.boundsEnabled">
       </label>
       <label>
         lng:
-        <input type="number" ng-model="form.bounds.NELng" ng-disabled="!form.boundsEnabled">
+        <input type="number" ng-model="vm.form.bounds.NELng" ng-disabled="!vm.form.boundsEnabled">
       </label>
     </div>
 
 
     <div class="checkbox">
       <label>
-        <input type="checkbox" value="" ng-model="form.componentEnabled">
+        <input type="checkbox" value="" ng-model="vm.form.componentEnabled">
         Country
       </label>
     </div>
     <div class="indent">
-      <select class="form-control" ng-model="form.country" ng-disabled="!form.componentEnabled">
-        <option>ca</option>
+      <select class="form-control" ng-model="vm.form.country" ng-disabled="!vm.form.componentEnabled">
+        <option>nz</option>
+        <option>ar</option>
         <option>us</option>
-        <option>gb</option>
       </select>
     </div>
     <br><br>
     <div class="checkbox">
       <label>
-        <input type="checkbox" value="" ng-model="form.watchEnter">
+        <input type="checkbox" value="" ng-model="vm.form.watchEnter">
         Watch Enter
       </label>
     </div>
-
+    <br><br>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="" ng-model="vm.form.initialLatLng" ng-change="vm.initialAddressChange()">
+        Enable initial lat & lng
+      </label>
+    </div>
+    <div class="indent">
+      <div class="title">Initial Lat and lng</div>
+      <label>
+        lat:
+        <input type="number" ng-model="vm.form.initialAddress.lat" ng-disabled="!vm.form.initialLatLng">
+      </label>
+      <label>
+        lng:
+        <input type="number" ng-model="vm.form.initialAddress.lng" ng-disabled="!vm.form.initialLatLng">
+      </label>    
+    </div>
 
     <div class="form-group move-down">
       <label for="Autocomplete2">Autocomplete Model</label>
-      <input type="text" id="Autocomplete2" ng-model="autocomplete" class="form-control" ng-autocomplete options="options" details="details"/>
+      <input type="text" id="Autocomplete2" ng-model="vm.autocomplete" class="form-control" ng-autocomplete options="vm.options" details="vm.details" initial-address="vm.initialAddress"/>
 
       <br>
-      <b>autocomplete</b>: {{autocomplete}}
+      <b>autocomplete</b>: {{vm.autocomplete}}
       <br><br>
-      <b>details (formatted address)</b>: {{details.formatted_address}}
+      <b>details (formatted address)</b>: {{vm.details.formatted_address}}
 
     </div>
 
@@ -117,7 +134,7 @@
 </div>
 
 <div>
-  <script src="https://maps.googleapis.com/maps/api/js?key={your_key_here}}&libraries=places" async defer></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.js"></script>
 
   <script type="text/javascript" src="ngAutocomplete.js"></script>

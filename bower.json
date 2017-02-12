@@ -4,5 +4,13 @@
   "main": "src/ngAutocomplete.js",
   "dependencies": {
     "angular": ">=1.2.0"
-  }
+  },
+  "homepage": "https://github.com/skielo/ngAutocomplete",
+  "authors": [
+    "skielo <ezequiel.reyno@gmail.com>"
+  ],
+  "keywords": [
+    "autocomplete", "google places", "places"
+  ],
+  "license": "MIT"
 }
