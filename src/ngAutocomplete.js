@@ -48,11 +48,11 @@ angular.module("ngAutocomplete", [])
 
         //options for autocomplete
         var watchEnter = false;
+        var opts = {};
 
         //convert options provided to opts
         var initOpts = function () {
 
-          var opts = {};
           if (scope.options) {
 
             if (scope.options.watchEnter !== true) {
@@ -98,7 +98,9 @@ angular.module("ngAutocomplete", [])
             console.warn('Using PlaceId to configure the Autocomplete component.');
           } else if (scope.initialAddress && scope.initialAddress.lat && scope.initialAddress.lng) {
             var geocoder = new google.maps.Geocoder;
-            geocoder.geocode({'location': scope.initialAddress}, function(results, status) {
+            geocoder.geocode({
+              'location': scope.initialAddress
+            }, function (results, status) {
               if (status === google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
                   scope.$apply(function () {
@@ -128,22 +130,19 @@ angular.module("ngAutocomplete", [])
         if (scope.gPlace === undefined) {
           scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
         }
-        google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
+        google.maps.event.addListener(scope.gPlace, 'place_changed', function () {        
           var result = scope.gPlace.getPlace();
-          if (result !== undefined) {
-            if (result.address_components !== undefined) {
+          if (result && result.address_components) {
+            scope.$apply(function () {
 
-              scope.$apply(function () {
+              scope.details = result;
 
-                scope.details = result;
-
-                controller.$setViewValue(element.val());
-              });
-            } else {
-              if (watchEnter) {
-                getPlace(result);
-                element[0].blur();
-              }
+              controller.$setViewValue(element.val());
+            });
+          } else {
+            if (watchEnter) {
+              getPlace(result);
+              element[0].blur();
             }
           }
         });
@@ -154,7 +153,9 @@ angular.module("ngAutocomplete", [])
           if (result.name.length > 0) {
             autocompleteService.getPlacePredictions({
                 input: result.name,
-                offset: result.name.length
+                offset: result.name.length,
+                componentRestrictions: opts.componentRestrictions,
+                types: scope.options.types || []
               },
               function listentoresult(list, status) {
                 if (list === null || list.length === 0) {
