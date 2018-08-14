@@ -15,9 +15,9 @@ This is an adaptation of this original component (https://github.com/wpalahnuk/n
 + [Example Plunkers - Advanced Usage](http://embed.plnkr.co/wQZPsx/)
 
 + [Run the examples locally]
-	+ Install npm in your machine
-	+ By executing the `localTest.bat` file you will get a `http-server` running in your local environment
-	+ Use http://localhost:8080 to run the test.
+  + Install npm in your machine
+  + By executing the `localTest.bat` file you will get a `http-server` running in your local environment
+  + Use http://localhost:8080 to run the test.
 
 ## Usage
 
@@ -50,17 +50,17 @@ Add the directive to a textbox
 
 + options - configuration for the autocomplete (Optional)
 
-    + types: type,        String, values can be 'geocode', 'establishment', '(regions)', or '(cities)'
-	+ bounds: bounds,     Google maps LatLngBounds Object, biases results to bounds, but may return results outside these bounds
-	+ country: country    String, ISO 3166-1 Alpha-2 compatible country code. examples; 'ca', 'us', 'gb'
+    + types: type,        Array, values can be 'geocode', 'establishment', '(regions)', or '(cities)'
+    + bounds: bounds,     Google maps LatLngBounds Object, biases results to bounds, but may return results outside these bounds
+    + country: country    String, ISO 3166-1 Alpha-2 compatible country code. examples; 'ca', 'us', 'gb'
     + watchEnter:         Boolean, true; on Enter select top autocomplete result. false(default); enter ends autocomplete  
 
 example: 
 
 ``` javascript
 options = {
-	types: '(cities)',
-	country: 'ca'
+  types: '(cities)',
+  country: 'ca'
 }
 ```
 + placeId - In case you want to initialize the autocomplete with an existing location you can provide the place_id from google places
@@ -70,7 +70,7 @@ options = {
 example: 
 ``` javascript
 initialAddress = {
-	lat: 40.7128 , 
+  lat: 40.7128 , 
     lng: 74.0059
 }
 ```
@@ -91,22 +91,22 @@ google places autocomplete https://developers.google.com/maps/documentation/java
 
     The MIT License
 
-	Copyright (c) 2017 Ezequiel Reyno
+  Copyright (c) 2017 Ezequiel Reyno
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included in
-	all copies or substantial portions of the Software.
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-	THE SOFTWARE.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
