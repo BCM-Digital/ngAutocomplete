@@ -62,8 +62,7 @@ angular.module("ngPlacesAutocomplete", [])
             }
 
             if (scope.options.types) {
-              opts.types = [];
-              opts.types.push(scope.options.types);
+              opts.types = scope.options.types;
               scope.gPlace.setTypes(opts.types);
             } else {
               scope.gPlace.setTypes([]);
