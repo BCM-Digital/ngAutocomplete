@@ -239,7 +239,7 @@ angular.module("ngPlacesAutocomplete", [])
           initInitialAddress();
         }, true);
 
-        scope.$on('ngPlacesAutocomplete:submit', (event, data) => {
+        scope.$on('ngPlacesAutocomplete:submit', function (event, data) {
             google.maps.event.trigger(scope.gPlace, 'place_changed');
         });
       }
