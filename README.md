@@ -77,6 +77,10 @@ initialAddress = {
 
 google places autocomplete info: https://developers.google.com/maps/documentation/javascript/places
 
+An event can be broadcast to force autocomplete to lookup the current input value and submit it:
+
+`scope.$broadcast('ngPlacesAutocomplete:submit');`
+
 ## Author
 
 **Ezequiel Reyno** (http://github.com/skielo)
