@@ -149,7 +149,8 @@ angular.module("ngPlacesAutocomplete", [])
             });
           } else {
             if (watchEnter) {
-              getPlace(result);
+              // Get first autocomplete result for the current input value.
+              getPlace({ name: controller.$viewValue });
               element[0].blur();
             }
           }
@@ -233,9 +234,14 @@ angular.module("ngPlacesAutocomplete", [])
         scope.$watch(scope.watchPlace, function () {
           initPlace();
         }, true);
+
         scope.$watch(scope.watchAddress, function () {
           initInitialAddress();
         }, true);
+
+        scope.$on('ngPlacesAutocomplete:submit', (event, data) => {
+            google.maps.event.trigger(scope.gPlace, 'place_changed');
+        });
       }
     };
   });
