@@ -170,6 +170,7 @@ angular.module("ngPlacesAutocomplete", [])
                 if (list === null || list.length === 0) {
 
                   scope.$apply(function () {
+                    scope.$emit('ngPlacesAutocomplete:no-results');
                     scope.details = null;
                   });
 
