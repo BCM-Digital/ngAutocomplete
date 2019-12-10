@@ -18,6 +18,7 @@
  *       + bounds: bounds,     Google maps LatLngBounds Object, biases results to bounds, but may return results outside these bounds
  *       + country: country    String, ISO 3166-1 Alpha-2 compatible country code. examples; 'ca', 'us', 'gb'
  *       + watchEnter:         Boolean, true; on Enter select top autocomplete result. false(default); enter ends autocomplete
+ *       + fields:              Array of string. Define autocomplete fields to be returned. e.g. fields: ['name', 'place_id', 'type', 'vicinity']
  *
  * example:
  *
@@ -25,9 +26,9 @@
  *      types: '(cities)',
  *      country: 'ca'
  *    }
- * 
+ *
  *    initialAddress = {
- *      lat: 40.7128 , 
+ *      lat: 40.7128 ,
  *      lng: 74.0059
  *    }
  **/
@@ -49,6 +50,24 @@ angular.module("ngPlacesAutocomplete", [])
         //options for autocomplete
         var watchEnter = false;
         var opts = {};
+
+        // Default places fields to use if not passed.
+        // Avoids additional Google Maps Platform costs.
+        var defaultPlacesFields = [
+          'address_component',
+          'adr_address',
+          'formatted_address',
+          'geometry',
+          'icon',
+          'name',
+          'permanently_closed',
+          'photo',
+          'place_id',
+          'plus_code',
+          'type',
+          'url',
+          'vicinity'
+        ];
 
         //convert options provided to opts
         var initOpts = function () {
@@ -82,6 +101,14 @@ angular.module("ngPlacesAutocomplete", [])
               scope.gPlace.setComponentRestrictions(opts.componentRestrictions);
             } else {
               scope.gPlace.setComponentRestrictions(null);
+            }
+
+            // Set fields to be returned as part of autocomplete request if supplied via options.
+            if (scope.options.fields) {
+              opts.fields = scope.options.fields;
+              scope.gPlace.setFields(opts.fields);
+            } else {
+              scope.gPlace.setFields(null);
             }
           }
         };
@@ -136,6 +163,11 @@ angular.module("ngPlacesAutocomplete", [])
 
         if (scope.gPlace === undefined) {
           scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
+
+          // Set default fields to be returned by autocomplete if none supplied via options
+          if (scope.options.fields === undefined) {
+            scope.gPlace.setFields(defaultPlacesFields);
+          }
         }
 
         google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
@@ -156,9 +188,12 @@ angular.module("ngPlacesAutocomplete", [])
           }
         });
 
-        //function to get retrieve the autocompletes first result using the AutocompleteService 
+        /**
+         * Retrieve the autocompletes first result using the AutocompleteService
+         */
         var getPlace = function (result) {
           var autocompleteService = new google.maps.places.AutocompleteService();
+
           if (result.name.length > 0) {
             autocompleteService.getPlacePredictions({
                 input: result.name,
@@ -181,14 +216,23 @@ angular.module("ngPlacesAutocomplete", [])
           }
         };
 
+        /**
+         * Return the details for the place chosen from the autocomplete dropdown
+         */
         var getPlaceDetails = function (list) {
-          var request = {};
+          // Set default fields to be returned
+          var request = {
+            fields: defaultPlacesFields,
+          };
+
           if (scope.placeId) {
             request['placeId'] = scope.placeId;
           }
+
           if (list) {
             request['reference'] = list[0].reference;
           }
+
           var placesService = new google.maps.places.PlacesService(element[0]);
           placesService.getDetails(request,
             function detailsresult(detailsResult, placesServiceStatus) {
